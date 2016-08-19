@@ -118,11 +118,12 @@ void XTextRenderer::Init(const XRect& rect, const XText* ptext, int16_t integral
 	m_endascii = font[5];
 	m_offset = 6 + ((m_endascii - m_startascii + 1) << 1);
 	// analyzing text metrics
+	uint8_t alignment = text.Alignment;
 	XPoint ls = m_rect.Location;
 	XPoint lc = m_rect.Center();
 	XPoint le = m_rect.Ending();
-	int16_t ox = (X_GetFlag(text.Alignment, X_Left) ? ls.x
-		: (X_GetFlag(text.Alignment, X_Right) ? le.x
+	int16_t ox = (X_GetFlag(alignment, X_Left) ? ls.x
+		: (X_GetFlag(alignment, X_Right) ? le.x
 		: lc.x));
 	m_rows.Clear();
 	m_multirow = false;
@@ -131,11 +132,11 @@ void XTextRenderer::Init(const XRect& rect, const XText* ptext, int16_t integral
 	int16_t bpw2 = 0;
 	uint16_t width = 0;
 	// add a new row info
-	auto _AddRow = [this, text, ox](int _bp, uint16_t _width)
+	auto _AddRow = [this, alignment, ox](int _bp, uint16_t _width)
 	{
-		int16_t x = ox - (X_GetFlag(text.Alignment, X_Left) ? 0
-			: (X_GetFlag(text.Alignment, X_Right) ? _width
-			: (_width >> 1)));
+		int16_t x = ox - (X_GetFlag(alignment, X_Left) ? 0
+			: (X_GetFlag(alignment, X_Right) ? _width
+			: (_width >> 1) - 1));
 		m_rows.Add({ _bp, x });
 		if (_width > m_size.Width)
 			m_size.Width = _width;
@@ -187,9 +188,9 @@ void XTextRenderer::Init(const XRect& rect, const XText* ptext, int16_t integral
 	Begin();
 	m_cl.x = m_rows[m_row].x;
 	uint16_t th = m_size.Height;
-	if (X_GetFlag(text.Alignment, X_Top))
+	if (X_GetFlag(alignment, X_Top))
 		m_cl.y = ls.y;
-	else if(X_GetFlag(text.Alignment, X_Bottom))
+	else if(X_GetFlag(alignment, X_Bottom))
 		m_cl.y = le.y - th + 1;
 	else if (m_integral)
 	{

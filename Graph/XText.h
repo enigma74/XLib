@@ -57,6 +57,12 @@ public:
 	{
 		return (XText&)From(pstr);
 	}
+
+	/// Assigns a string to this instance
+	inline XText& operator=(const XText& text)
+	{
+		return (XText&)From(text);
+	}
 };
 
 #endif
