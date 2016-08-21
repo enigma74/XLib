@@ -41,4 +41,10 @@ XText::XText(PCSTR pstr)
 XText::XText(const XText& text)
 	: XText((PCSTR)text)
 {
+	Alignment = text.Alignment;
+	Wrap = text.Wrap;
+	Fixed = text.Fixed;
+	Leading = text.Leading;
+	Tracking = text.Tracking;
+	Font = text.Font;
 }
