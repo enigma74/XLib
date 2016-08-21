@@ -52,6 +52,4 @@
 
 #include "Device/XTouch.h"
 
-#include "Device/XSDL.h"
-
 #endif

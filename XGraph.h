@@ -36,4 +36,6 @@
 #include "Graph/XContext.h"
 #include "Graph/XDisplay.h"
 
+#include "Graph/XSDL.h"
+
 #endif

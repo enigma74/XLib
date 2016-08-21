@@ -22,7 +22,7 @@
  * SOFTWARE.
  *******************************************************************************/
 
-#include "XDevice.h"
+#include "XGraph.h"
 #include "XSDL.h"
 
 #if defined(X_SDL)
@@ -59,10 +59,10 @@ XSDL::~XSDL()
 {
 	if (!m_init)
 		return;
-	SDL_FreeFormat (m_pf);
-	SDL_FreeSurface (m_ps);
-	SDL_DestroyRenderer (m_pr);
-	SDL_DestroyWindow (m_pw);
+	SDL_FreeFormat(m_pf);
+	SDL_FreeSurface(m_ps);
+	SDL_DestroyRenderer(m_pr);
+	SDL_DestroyWindow(m_pw);
 	SDL_Quit();
 }
 
@@ -94,7 +94,7 @@ void XSDL::OnEndSequence()
 		return;
 	SDL_Texture* pt = SDL_CreateTextureFromSurface(m_pr, m_ps);
 	SDL_RenderCopy(m_pr, pt, NULL, NULL);
-	SDL_RenderPresent (m_pr);
+	SDL_RenderPresent(m_pr);
 	SDL_DestroyTexture(pt);
 }
 

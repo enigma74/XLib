@@ -82,7 +82,17 @@ XString& XString::From(PCSTR pstr)
 
 XString& XString::FromLong(long value, int base)
 {
+	char chars[] = "0123456789abcdef";
+
 	char tmp[X_MaxNum];
+
+//	int i = 0;
+//	if (value < 0)
+//	{
+//		tmp[0] = '-';
+//
+//	}
+
 	snprintf(tmp, X_MaxNum, "%li", value);
 	//ltoa(value, tmp, X_MaxNum, base);
 	return From(tmp);
