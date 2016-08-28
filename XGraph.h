@@ -32,6 +32,11 @@
 #include "Graph/XColor.h"
 #include "Graph/XText.h"
 
+#include "Graph/Renderers/XLineRenderer.h"
+#include "Graph/Renderers/XArcRenderer.h"
+#include "Graph/Renderers/XIconRenderer.h"
+#include "Graph/Renderers/XTextRenderer.h"
+
 #include "Graph/XEvent.h"
 #include "Graph/XContext.h"
 #include "Graph/XDisplay.h"

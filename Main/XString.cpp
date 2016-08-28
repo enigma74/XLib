@@ -26,6 +26,7 @@
 #include "XString.h"
 
 #include <ctype.h>
+#include <math.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
@@ -39,15 +40,71 @@
 #define X_MaxText 512
 #define X_MaxNum 32
 
+char XString::DecimalSeparator = '.';
+
 XString::XString(PCSTR pstr)
 {
 	m_pstr = NULL;
-	From(pstr);
+	Set(pstr);
 }
 
 XString::XString(const XString& str)
 	: XString((PCSTR)str)
 {
+}
+
+XString::XString(char ch, int count)
+	: XString((PSTR)NULL)
+{
+	Set(ch, count);
+}
+
+XString::XString(int16_t value, int base)
+	: XString((PCSTR)NULL)
+{
+	Set(value, base);
+}
+
+XString::XString(uint16_t value, int base)
+	: XString((PCSTR)NULL)
+{
+	Set(value, base);
+}
+
+XString::XString(int32_t value, int base)
+	: XString((PCSTR)NULL)
+{
+	Set(value, base);
+}
+
+XString::XString(uint32_t value, int base)
+	: XString((PCSTR)NULL)
+{
+	Set(value, base);
+}
+
+XString::XString(int64_t value, int base)
+	: XString((PCSTR)NULL)
+{
+	Set(value, base);
+}
+
+XString::XString(uint64_t value, int base)
+	: XString((PCSTR)NULL)
+{
+	Set(value, base);
+}
+
+XString::XString(float value, int dec)
+	: XString((PCSTR)NULL)
+{
+	Set(value, dec);
+}
+
+XString::XString(double value, int dec)
+	: XString((PCSTR)NULL)
+{
+	Set(value, dec);
 }
 
 XString::~XString()
@@ -57,7 +114,7 @@ XString::~XString()
 
 // ********************************************************************************
 
-XString& XString::Set(PSTR pstr, int lenght)
+XString& XString::SetBuffer(PSTR pstr, int lenght)
 {
 	m_lenght = lenght;
 	if (m_pstr)
@@ -70,37 +127,128 @@ XString& XString::Set(PSTR pstr, int lenght)
 
 // ********************************************************************************
 
-XString& XString::From(PCSTR pstr)
+XString& XString::Set(PCSTR pstr)
 {
 	int lenght = pstr ? (int)strlen(pstr) : 0;
 	if (!lenght)
-		return Set();
+		return Clear();
 	PSTR ptmp = new char[lenght + 1];
 	memcpy(ptmp, pstr, lenght);
-	return Set(ptmp, lenght);
+	return SetBuffer(ptmp, lenght);
 }
 
-XString& XString::FromLong(long value, int base)
+XString& XString::Set(char ch, int count)
 {
-	char chars[] = "0123456789abcdef";
-
-	char tmp[X_MaxNum];
-
-//	int i = 0;
-//	if (value < 0)
-//	{
-//		tmp[0] = '-';
-//
-//	}
-
-	snprintf(tmp, X_MaxNum, "%li", value);
-	//ltoa(value, tmp, X_MaxNum, base);
-	return From(tmp);
+	if ((ch == 0) || (count < 1))
+		return Clear();
+	PSTR ptmp = new char[count + 1];
+	for (int i = 0; i < count; i++)
+		ptmp[i] = ch;
+	return SetBuffer(ptmp, count);
 }
 
-long XString::ToLong(int base)
+bool XString::IsValidBase(int base)
 {
-	return IsEmpty() ? 0 : atol(m_pstr);
+	switch (base)
+	{
+		case 2:
+		case 8:
+		case 10:
+		case 16:
+			return true;
+		default:
+			return false;
+	}
+}
+
+template <typename T> XString& XString::SetValue(T value, int base, int decIndex)
+{
+	if (!IsValidBase(base))
+		return Clear();
+	PSTR ptmp = new char[X_MaxNum + 1];
+	char digits[] = "0123456789ABCDEF";
+	int i = X_MaxNum;
+	bool neg = value < 0;
+	if (decIndex < 0)
+		decIndex = 0;
+	do
+	{
+		int r = value % base;
+		ptmp[--i] = digits[neg ? -r : r];
+		value /= base;
+		if (decIndex && ((X_MaxNum - i) == decIndex))
+		{
+			ptmp[--i] = DecimalSeparator;
+			decIndex = 0;
+		}
+	} while ((value != 0) && (i > 0));
+	if (neg && (i > 0))
+		ptmp[--i] = '-';
+	return SetBuffer(ptmp, X_MaxNum).CropAt(i);
+}
+
+XString& XString::Set(int16_t value, int base)
+{
+	return SetValue(value, base);
+}
+
+XString& XString::Set(uint16_t value, int base)
+{
+	return SetValue(value, base);
+}
+
+XString& XString::Set(int32_t value, int base)
+{
+	return SetValue(value, base);
+}
+
+XString& XString::Set(uint32_t value, int base)
+{
+	return SetValue(value, base);
+}
+
+XString& XString::Set(int64_t value, int base)
+{
+	return SetValue(value, base);
+}
+
+XString& XString::Set(uint64_t value, int base)
+{
+	return SetValue(value, base);
+}
+
+XString& XString::Set(float value, int dec)
+{
+	return Set((double)value, dec);
+}
+
+XString& XString::Set(double value, int dec)
+{
+	if (dec)
+	{
+		int max = 15 - (int)log10(fabs(value));
+		if (max > 0)
+		{
+			if (dec > 0)
+			{
+				if (dec > max)
+					dec = max;
+				value *= pow(10, dec);
+			}
+			else
+			{
+				dec = 0;
+				while ((dec < max) && (fabs(value - round(value)) > 0.0001))
+				{
+					value *= 10.0;
+					dec++;
+				}
+			}
+		}
+		else
+			dec = 0;
+	}
+	return SetValue((int64_t)round(value), 10, dec);
 }
 
 XString& XString::Format(PCSTR fmt, ...)
@@ -112,7 +260,7 @@ XString& XString::Format(PCSTR fmt, ...)
 	char tmp[X_MaxText];
 	vsnprintf(tmp, X_MaxText, fmt, args);
 	va_end(args);
-	return From(tmp);
+	return Set(tmp);
 }
 
 char XString::operator[](int index) const
@@ -204,24 +352,12 @@ XString& XString::InsertAt(int index, PCSTR pstr)
 	int r = m_lenght - index;
 	if (r)
 		memcpy(ptmp + index + l, m_pstr + index, r);
-	return Set(ptmp, lenght);
+	return SetBuffer(ptmp, lenght);
 }
-
-XString& XString::InsertAt(int index, char ch)
-{
-	char tmp[2] = { ch, 0 };
-	return InsertAt(index, tmp);
-}
-
 
 XString& XString::Append(PCSTR pstr)
 {
 	return InsertAt(m_lenght, pstr);
-}
-
-XString& XString::Append(char ch)
-{
-	return InsertAt(m_lenght, ch);
 }
 
 XString& XString::operator+=(PCSTR pstr)
@@ -236,12 +372,12 @@ XString XString::operator+(PCSTR pstr) const
 
 XString& XString::operator+=(char ch)
 {
-	return Append(ch);
+	return Append(XString(ch));
 }
 
 XString XString::operator+(char ch) const
 {
-	return XString(*this).Append(ch);
+	return XString(*this) += ch;
 }
 
 XString& XString::RemoveAt(int index, int count)
@@ -252,7 +388,7 @@ XString& XString::RemoveAt(int index, int count)
 	if (count > r)
 		count = r;
 	if (count == m_lenght)
-		return Set();
+		return Clear();
 	int lenght = m_lenght - count;
 	PSTR ptmp = new char[lenght + 1];
 	if (index > 0)
@@ -260,23 +396,23 @@ XString& XString::RemoveAt(int index, int count)
 	r -= count;
 	if (r)
 		memcpy(ptmp + index, m_pstr + index + count, r);
-	return Set(ptmp, lenght);
+	return SetBuffer(ptmp, lenght);
 }
 
 XString& XString::CropAt(int index, int count)
 {
 	if ((index < 0) || (index >= m_lenght))
-		return Set();
+		return Clear();
 	int r = m_lenght - index;
 	if ((count < 0) || (count > r))
 		count = r;
 	if (count == m_lenght)
 		return *this;
 	if (count == 0)
-		return Set();
+		return Clear();
 	PSTR ptmp = new char[count + 1];
 	memcpy(ptmp, m_pstr + index, count);
-	return Set(ptmp, count);
+	return SetBuffer(ptmp, count);
 }
 
 XString XString::Substring(int index, int count) const
@@ -300,7 +436,7 @@ XString& XString::Trim(char ch)
 			for (int end = m_lenght - 1; end >= start; end--)
 				if (IsValidChar(end, ch))
 					return CropAt(start, end - start + 1);
-	return Set();
+	return Clear();
 }
 
 XString& XString::TrimStart(char ch)
@@ -310,7 +446,7 @@ XString& XString::TrimStart(char ch)
 	for (int start = 0; start < m_lenght; start++)
 		if (IsValidChar(start, ch))
 			return CropAt(start, m_lenght - start);
-	return Set();
+	return Clear();
 }
 
 XString& XString::TrimEnd(char ch)
@@ -320,7 +456,7 @@ XString& XString::TrimEnd(char ch)
 	for (int end = m_lenght - 1; end >= 0; end--)
 		if (IsValidChar(end, ch))
 			return CropAt(0, end + 1);
-	return Set();
+	return Clear();
 }
 
 XString& XString::ToUpper()
@@ -353,4 +489,9 @@ XString& XString::ToTitle()
 		upper = false;
 	}
 	return *this;
+}
+
+double XString::ToDouble()
+{
+	return IsEmpty() ? 0 : strtod(m_pstr, NULL);
 }

@@ -25,8 +25,6 @@
 #include "XDevice.h"
 #include "XPCF8814.h"
 
-#include "../../Graph/Renderers/XTextRenderer.h"
-
 #if defined(__XHW__)
 
 XPCF8814::XPCF8814(XLCDSerial& i)

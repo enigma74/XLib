@@ -28,7 +28,6 @@
 const XData* XText::DefaultFont = NULL;
 
 XText::XText(PCSTR pstr)
-	: XString(pstr)
 {
 	Alignment = X_TopLeft;
 	Wrap = false;
@@ -36,10 +35,10 @@ XText::XText(PCSTR pstr)
 	Leading = 0;
 	Tracking = 0;
 	Font = DefaultFont;
+	Value = pstr;
 }
 
 XText::XText(const XText& text)
-	: XText((PCSTR)text)
 {
 	Alignment = text.Alignment;
 	Wrap = text.Wrap;
@@ -47,4 +46,17 @@ XText::XText(const XText& text)
 	Leading = text.Leading;
 	Tracking = text.Tracking;
 	Font = text.Font;
+	Value = text.Value;
+}
+
+XText& XText::operator=(PCSTR pstr)
+{
+	Value = pstr;
+	return *this;
+}
+
+XText& XText::operator=(const XText& text)
+{
+	Value = text.Value;
+	return *this;
 }

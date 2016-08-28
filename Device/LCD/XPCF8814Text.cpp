@@ -25,8 +25,6 @@
 #include "XDevice.h"
 #include "XPCF8814Text.h"
 
-#include "../../Graph/Renderers/XTextRenderer.h"
-
 #if defined(__XHW__)
 
 XPCF8814Text::XPCF8814Text(XLCDSerial& i)
@@ -103,7 +101,7 @@ void XPCF8814Text::OnClear()
 void XPCF8814Text::Text(XRect rect, const XText& text, bool invert)
 {
 	rect = Rect.Fix(rect);
-	if (rect.IsEmpty() || text.IsEmpty())
+	if (rect.IsEmpty() || text.Value.IsEmpty())
 		return;
 	I.Enable();
 	// write data and function

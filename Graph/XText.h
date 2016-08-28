@@ -26,7 +26,7 @@
 #define XText_h
 
 /// Text class
-class XText : public XString
+class XText
 {
 public:
 	/// Default font pointer
@@ -44,6 +44,8 @@ public:
 	int8_t Tracking;
 	/// Font pointer
 	const XData* Font;
+	/// Value
+	XString Value;
 	
 	/// Constructor
 	/// @param pstr Source string pointer
@@ -53,16 +55,9 @@ public:
 	XText(const XText& text);
 	
 	/// Assigns a string to this instance
-	inline XText& operator=(PCSTR pstr)
-	{
-		return (XText&)From(pstr);
-	}
-
+	XText& operator=(PCSTR pstr);
 	/// Assigns a string to this instance
-	inline XText& operator=(const XText& text)
-	{
-		return (XText&)From(text);
-	}
+	XText& operator=(const XText& text);
 };
 
 #endif

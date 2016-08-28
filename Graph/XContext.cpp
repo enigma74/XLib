@@ -25,11 +25,6 @@
 #include "XGraph.h"
 #include "XContext.h"
 
-#include "Renderers/XLineRenderer.h"
-#include "Renderers/XArcRenderer.h"
-#include "Renderers/XIconRenderer.h"
-#include "Renderers/XTextRenderer.h"
-
 XContext::XContext(XDisplay& display, const XRect& rect)
 	: Display(display)
 {
@@ -371,7 +366,7 @@ XSize XContext::TextSize(const XText& text, XSize max)
 
 void XContext::Text(XRect rect, const XText& text)
 {
-	if (rect.IsEmpty() || text.IsEmpty() || !BeginFunction())
+	if (rect.IsEmpty() || text.Value.IsEmpty() || !BeginFunction())
 		return;
 	rect = m_rect.Translate(rect);
 	XTextRenderer tr(rect, &text);

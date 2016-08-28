@@ -44,13 +44,13 @@ bool XTextRenderer::NextChar()
 		return false;
 	const XText& text = *m_ptext;
 	// check for available char
-	if (m_index >= text.Lenght())
+	if (m_index >= text.Value.Lenght())
 		return false;
 	// increment x position by previous width
 	if (m_width)
 		m_cl.x += m_width + m_tracking;
 	// next char
-	m_ch = text[m_index];
+	m_ch = text.Value[m_index];
 	m_index++;
 	m_width = 0;
 	m_gl = X_InvalidPoint;
