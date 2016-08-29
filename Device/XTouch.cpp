@@ -402,12 +402,10 @@ XEvent XTouch::PollEvent()
 		m_touching = true;
 		return XEvent(XEvents::Push, m_l);
 	}
-	else if (m_touching)
-	{
-		m_touching = false;
-		return XEvent(XEvents::Release, m_l);
-	}
-	return XEvents::None;
+	if (!m_touching)
+		return XEvents::None;
+	m_touching = false;
+	return XEvent(XEvents::Release, m_l);
 }
 
 #endif // __XHW__
