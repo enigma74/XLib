@@ -49,10 +49,9 @@ XText::XText(const XText& text)
 	Value = text.Value;
 }
 
-XText& XText::operator=(PCSTR pstr)
+XString& XText::operator=(PCSTR pstr)
 {
-	Value = pstr;
-	return *this;
+	return (Value = pstr);
 }
 
 XText& XText::operator=(const XText& text)

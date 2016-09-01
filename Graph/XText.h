@@ -55,7 +55,7 @@ public:
 	XText(const XText& text);
 	
 	/// Assigns a string to this instance
-	XText& operator=(PCSTR pstr);
+	XString& operator=(PCSTR pstr);
 	/// Assigns a string to this instance
 	XText& operator=(const XText& text);
 };

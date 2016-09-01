@@ -48,35 +48,43 @@ public:
 	/// Constructor
 	/// @param value Value to set
 	/// @param base Value base (2, 8, 10, 16)
-	XString(int16_t value, int base = 10);
+	/// @param length Minimum length filled with zeroes
+	XString(int16_t value, int base = 10, int length = 0);
 	/// Constructor
 	/// @param value Value to set
 	/// @param base Value base (2, 8, 10, 16)
-	XString(uint16_t value, int base = 10);
+	/// @param length Minimum length filled with zeroes
+	XString(uint16_t value, int base = 10, int length = 0);
 	/// Constructor
 	/// @param value Value to set
 	/// @param base Value base (2, 8, 10, 16)
-	XString(int32_t value, int base = 10);
+	/// @param length Minimum length filled with zeroes
+	XString(int32_t value, int base = 10, int length = 0);
 	/// Constructor
 	/// @param value Value to set
 	/// @param base Value base (2, 8, 10, 16)
-	XString(uint32_t value, int base = 10);
+	/// @param length Minimum length filled with zeroes
+	XString(uint32_t value, int base = 10, int length = 0);
 	/// Constructor
 	/// @param value Value to set
 	/// @param base Value base (2, 8, 10, 16)
-	XString(int64_t value, int base = 10);
+	/// @param length Minimum length filled with zeroes
+	XString(int64_t value, int base = 10, int length = 0);
 	/// Constructor
 	/// @param value Value to set
 	/// @param base Value base (2, 8, 10, 16)
-	XString(uint64_t value, int base = 10);
+	/// @param length Minimum length filled with zeroes
+	XString(uint64_t value, int base = 10, int length = 0);
 	/// Constructor
 	/// @param value Value to set
 	/// @param dec Number of decimals (0~15, -1 auto)
-	XString(float value, int dec = -1);
+	/// @param length Minimum length filled with zeroes
+	XString(float value, int dec = 2, int length = 0);
 	/// Constructor
 	/// @param value Value to set
 	/// @param dec Number of decimals (0~15, -1 auto)
-	XString(double value, int dec = -1);
+	/// @param length Minimum length filled with zeroes
+	XString(double value, int dec = 2, int length = 0);
 
 	/// Destructor
 	virtual ~XString();
@@ -89,108 +97,68 @@ public:
 
 	/// Assigns a string to this instance
 	/// @param pstr Source string pointer
-	XString& Set(PCSTR pstr);
+	XString& From(PCSTR pstr);
 	/// Assigns a character to this instance
 	/// @param ch Source character
 	/// @param count Number of characters
-	XString& Set(char ch, int count = 1);
+	XString& From(char ch, int count = 1);
 	/// Assigns a number to this instance
 	/// @param value Value to set
 	/// @param base Value base (2, 8, 10, 16)
-	XString& Set(int16_t value, int base = 10);
+	/// @param length Minimum length filled with zeroes
+	XString& From(int16_t value, int base = 10, int length = 0);
 	/// Assigns a number to this instance
 	/// @param value Value to set
 	/// @param base Value base (2, 8, 10, 16)
-	XString& Set(uint16_t value, int base = 10);
+	/// @param length Minimum length filled with zeroes
+	XString& From(uint16_t value, int base = 10, int length = 0);
 	/// Assigns a number to this instance
 	/// @param value Value to set
 	/// @param base Value base (2, 8, 10, 16)
-	XString& Set(int32_t value, int base = 10);
+	/// @param length Minimum length filled with zeroes
+	XString& From(int32_t value, int base = 10, int length = 0);
 	/// Assigns a number to this instance
 	/// @param value Value to set
 	/// @param base Value base (2, 8, 10, 16)
-	XString& Set(uint32_t value, int base = 10);
+	/// @param length Minimum length filled with zeroes
+	XString& From(uint32_t value, int base = 10, int length = 0);
 	/// Assigns a number to this instance
 	/// @param value Value to set
 	/// @param base Value base (2, 8, 10, 16)
-	XString& Set(int64_t value, int base = 10);
+	/// @param length Minimum length filled with zeroes
+	XString& From(int64_t value, int base = 10, int length = 0);
 	/// Assigns a number to this instance
 	/// @param value Value to set
 	/// @param base Value base (2, 8, 10, 16)
-	XString& Set(uint64_t value, int base = 10);
+	/// @param length Minimum length filled with zeroes
+	XString& From(uint64_t value, int base = 10, int length = 0);
 	/// Assigns a number to this instance
 	/// @param value Value to set
 	/// @param dec Number of decimals (0~15, -1 auto)
-	XString& Set(float value, int dec = -1);
+	/// @param length Minimum length filled with zeroes
+	XString& From(float value, int dec = 2, int length = 0);
 	/// Assigns a number to this instance
 	/// @param value Value to set
 	/// @param dec Number of decimals (0~15, -1 auto)
-	XString& Set(double value, int dec = -1);
+	/// @param length Minimum length filled with zeroes
+	XString& From(double value, int dec = 2, int length = 0);
 
 	/// Assigns a string to this instance
 	inline XString& operator=(PCSTR pstr)
 	{
-		return Set(pstr);
+		return From(pstr);
 	}
 
 	/// Assigns a string to this instance
 	inline XString& operator=(const XString& str)
 	{
-		return Set((PCSTR)str);
+		return From((PCSTR)str);
 	}
 
 	/// Assigns a character to this instance
 	inline XString& operator=(char ch)
 	{
-		return Set(ch);
-	}
-
-	/// Assigns a number to this instance
-	inline XString& operator=(int16_t value)
-	{
-		return Set(value);
-	}
-
-	/// Assigns a number to this instance
-	inline XString& operator=(uint16_t value)
-	{
-		return Set(value);
-	}
-
-	/// Assigns a number to this instance
-	inline XString& operator=(int32_t value)
-	{
-		return Set(value);
-	}
-
-	/// Assigns a number to this instance
-	inline XString& operator=(uint32_t value)
-	{
-		return Set(value);
-	}
-
-	/// Assigns a number to this instance
-	inline XString& operator=(int64_t value)
-	{
-		return Set(value);
-	}
-
-	/// Assigns a number to this instance
-	inline XString& operator=(uint64_t value)
-	{
-		return Set(value);
-	}
-
-	/// Assigns a number to this instance
-	inline XString& operator=(float value)
-	{
-		return Set(value);
-	}
-
-	/// Assigns a number to this instance
-	inline XString& operator=(double value)
-	{
-		return Set(value);
+		return From(ch);
 	}
 	
 	/// Returns string pointer
@@ -199,16 +167,16 @@ public:
 		return m_pstr;
 	}
 	
-	/// Returns string lenght
-	inline int Lenght() const
+	/// Returns string length
+	inline int Length() const
 	{
-		return m_lenght;
+		return m_length;
 	}
 	
 	/// Checks for empty string
 	inline bool IsEmpty() const
 	{
-		return m_lenght == 0;
+		return m_length == 0;
 	}
 	
 	/// Formats the string
@@ -229,14 +197,14 @@ public:
 	int CompareTo(PCSTR pstr, bool ignorecase = false) const;
 	/// Compares the string to another (case insensitive)
 	/// @param pstr Second string
-	int NoCaseCompareTo(PCSTR pstr) const;
+	int CompareToNoCase(PCSTR pstr) const;
 	/// Checks for equality with another string
 	/// @param pstr Second string
 	/// @param ignorecase Case insensitive flag
 	bool Equals(PCSTR pstr, bool ignorecase = false) const;
 	/// Checks for equality with another string (case insensitive)
 	/// @param pstr Second string
-	bool NoCaseEquals(PCSTR pstr) const;
+	bool EqualsNoCase(PCSTR pstr) const;
 	
 	/// Comparison == operator
 	inline bool operator==(PCSTR pstr) const
@@ -260,7 +228,7 @@ public:
 	/// @param pstr String to search
 	/// @param start Starting position
 	/// @param skip Strings to skip
-	int NoCaseIndexOf(PCSTR pstr, int start = 0, int skip = 0) const;
+	int IndexOfNoCase(PCSTR pstr, int start = 0, int skip = 0) const;
 	/// Returns the index of the specified character
 	/// @param ch Character to search
 	/// @param start Starting position
@@ -271,7 +239,7 @@ public:
 	/// @param ch Character to search
 	/// @param start Starting position
 	/// @param skip Characters to skip
-	int NoCaseIndexOf(char ch, int start = 0, int skip = 0) const;
+	int IndexOfNoCase(char ch, int start = 0, int skip = 0) const;
 
 	/// Insert a string in the specified position
 	/// @param index Position
@@ -283,12 +251,21 @@ public:
 
 	/// Appends a string
 	XString& operator+=(PCSTR pstr);
-	/// Adds a string
-	XString operator+(PCSTR pstr) const;
+	/// Appends a string
+	XString& operator+=(const XString& str);
 	/// Appends a character
 	XString& operator+=(char ch);
-	/// Adds a character
-	XString operator+(char ch) const;
+
+	/// Concatenates two strings
+	friend XString operator+(const XString& stra, const XString& strb);
+	/// Concatenates two strings
+	friend XString operator+(PCSTR pstra, const XString& strb);
+	/// Concatenates two strings
+	friend XString operator+(const XString& stra, PCSTR pstrb);
+	/// Concatenates a character to a string
+	friend XString operator+(char ch, const XString& str);
+	/// Concatenates a string to a character
+	friend XString operator+(const XString& str, char ch);
 
 	/// Removes the specified number of characters at the specified position
 	/// @param index Position
@@ -326,14 +303,14 @@ public:
 protected:
 	/// Sets the string buffer
 	/// @param pstr String
-	/// @param lenght Lenght
-	XString& SetBuffer(PSTR pstr, int lenght);
+	/// @param length Lenght
+	XString& SetBuffer(PSTR pstr, int length);
 
 	/// Verify the position
 	/// @param index Position
 	inline bool VerifyIndex(int index) const
 	{
-		return ((index >= 0) && (index < m_lenght));
+		return ((index >= 0) && (index < m_length));
 	}
 
 	/// Verify the correct value base
@@ -346,7 +323,7 @@ protected:
 
 private:
 	/// Lenght
-	int m_lenght;
+	int m_length;
 	/// Buffer
 	PSTR m_pstr;
 	/// A default char
@@ -355,9 +332,10 @@ private:
 	/// Assigns a number to this instance
 	/// @tparam T Integral type of value
 	/// @param value Value to set
+	/// @param length Minimum length filled with zeroes
 	/// @param base Value base (2, 8, 10, 16)
 	/// @param decIndex Decimal separator position
-	template <typename T> XString& SetValue(T value, int base, int decIndex = 0);
+	template <typename T> XString& FromInt(T value, int length, int base = 10, int decIndex = 0);
 };
 
 #endif

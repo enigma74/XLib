@@ -44,7 +44,7 @@ bool XTextRenderer::NextChar()
 		return false;
 	const XText& text = *m_ptext;
 	// check for available char
-	if (m_index >= text.Value.Lenght())
+	if (m_index >= text.Value.Length())
 		return false;
 	// increment x position by previous width
 	if (m_width)
