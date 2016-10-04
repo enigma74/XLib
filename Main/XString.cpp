@@ -41,6 +41,7 @@
 #define X_MaxNum 32
 
 char XString::DecimalSeparator = '.';
+char XString::ThousandsSeparator = ',';
 
 XString::XString(PCSTR pstr)
 {
@@ -151,7 +152,6 @@ bool XString::IsValidBase(int base)
 	switch (base)
 	{
 		case 2:
-		case 8:
 		case 10:
 		case 16:
 			return true;
@@ -170,57 +170,98 @@ template <typename T> XString& XString::FromInt(T value, int length, int base, i
 	bool neg = value < 0;
 	if (decIndex < 0)
 		decIndex = 0;
+	int tIndex = base == 10
+		? (decIndex ? decIndex + 4 : 3)
+		: 0;
 	do
 	{
 		int r = value % base;
 		ptmp[--i] = digits[neg ? -r : r];
 		value /= base;
-		if (decIndex && ((X_MaxNum - i) == decIndex))
+		int p = (X_MaxNum - i);
+		if (decIndex && (p == decIndex))
 		{
 			ptmp[--i] = DecimalSeparator;
 			decIndex = 0;
 		}
+		if (tIndex && (p == tIndex))
+		{
+			ptmp[--i] = ThousandsSeparator;
+			tIndex += 4;
+		}
 	} while ((value != 0) && (i > 0));
+	if (neg && (i > 0))
+		ptmp[--i] = '-';
 	if (length > 0)
 	{
 		int start = length >= X_MaxNum ? 0 : X_MaxNum - length;
-		if (neg)
-			start++;
+		char ch = base == 10 ? ' ' : '0';
 		while (i > start)
-			ptmp[--i] = '0';
+			ptmp[--i] = ch;
 	}
-	if (neg && (i > 0))
-		ptmp[--i] = '-';
 	return SetBuffer(ptmp, X_MaxNum).CropAt(i);
 }
 
 XString& XString::From(int16_t value, int base, int length)
 {
+	if (base != 10)
+		return FromInt((uint16_t)value, length, base);
 	return FromInt(value, length, base);
 }
 
 XString& XString::From(uint16_t value, int base, int length)
 {
+	if (!length)
+	{
+		switch (base)
+		{
+			case 2: length = 16; break;
+			case 16: length = 4; break;
+			default: break;
+		}
+	}
 	return FromInt(value, length, base);
 }
 
 XString& XString::From(int32_t value, int base, int length)
 {
+	if (base != 10)
+		return FromInt((uint32_t)value, length, base);
 	return FromInt(value, length, base);
 }
 
 XString& XString::From(uint32_t value, int base, int length)
 {
+	if (!length)
+	{
+		switch (base)
+		{
+			case 2: length = 32; break;
+			case 16: length = 8; break;
+			default: break;
+		}
+	}
 	return FromInt(value, length, base);
 }
 
 XString& XString::From(int64_t value, int base, int length)
 {
+	if (base != 10)
+		return FromInt((uint64_t)value, length, base);
 	return FromInt(value, length, base);
 }
 
 XString& XString::From(uint64_t value, int base, int length)
 {
+	if (!length)
+	{
+		switch (base)
+		{
+			case 2: length = 64; break;
+			case 16: length = 16; break;
+			default: break;
+		}
+	}
 	return FromInt(value, length, base);
 }
 

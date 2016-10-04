@@ -34,6 +34,8 @@ class XString
 public:
 	/// Character for decimal separator
 	static char DecimalSeparator;
+	/// Character for thousands separator
+	static char ThousandsSeparator;
 
 	/// Constructor
 	/// @param pstr Source string pointer
@@ -47,32 +49,32 @@ public:
 	XString(char ch, int count = 1);
 	/// Constructor
 	/// @param value Value to set
-	/// @param base Value base (2, 8, 10, 16)
+	/// @param base Value base (2, 10, 16)
 	/// @param length Minimum length filled with zeroes
 	XString(int16_t value, int base = 10, int length = 0);
 	/// Constructor
 	/// @param value Value to set
-	/// @param base Value base (2, 8, 10, 16)
+	/// @param base Value base (2, 10, 16)
 	/// @param length Minimum length filled with zeroes
 	XString(uint16_t value, int base = 10, int length = 0);
 	/// Constructor
 	/// @param value Value to set
-	/// @param base Value base (2, 8, 10, 16)
+	/// @param base Value base (2, 10, 16)
 	/// @param length Minimum length filled with zeroes
 	XString(int32_t value, int base = 10, int length = 0);
 	/// Constructor
 	/// @param value Value to set
-	/// @param base Value base (2, 8, 10, 16)
+	/// @param base Value base (2, 10, 16)
 	/// @param length Minimum length filled with zeroes
 	XString(uint32_t value, int base = 10, int length = 0);
 	/// Constructor
 	/// @param value Value to set
-	/// @param base Value base (2, 8, 10, 16)
+	/// @param base Value base (2, 10, 16)
 	/// @param length Minimum length filled with zeroes
 	XString(int64_t value, int base = 10, int length = 0);
 	/// Constructor
 	/// @param value Value to set
-	/// @param base Value base (2, 8, 10, 16)
+	/// @param base Value base (2, 10, 16)
 	/// @param length Minimum length filled with zeroes
 	XString(uint64_t value, int base = 10, int length = 0);
 	/// Constructor
@@ -104,32 +106,32 @@ public:
 	XString& From(char ch, int count = 1);
 	/// Assigns a number to this instance
 	/// @param value Value to set
-	/// @param base Value base (2, 8, 10, 16)
+	/// @param base Value base (2, 10, 16)
 	/// @param length Minimum length filled with zeroes
 	XString& From(int16_t value, int base = 10, int length = 0);
 	/// Assigns a number to this instance
 	/// @param value Value to set
-	/// @param base Value base (2, 8, 10, 16)
+	/// @param base Value base (2, 10, 16)
 	/// @param length Minimum length filled with zeroes
 	XString& From(uint16_t value, int base = 10, int length = 0);
 	/// Assigns a number to this instance
 	/// @param value Value to set
-	/// @param base Value base (2, 8, 10, 16)
+	/// @param base Value base (2, 10, 16)
 	/// @param length Minimum length filled with zeroes
 	XString& From(int32_t value, int base = 10, int length = 0);
 	/// Assigns a number to this instance
 	/// @param value Value to set
-	/// @param base Value base (2, 8, 10, 16)
+	/// @param base Value base (2, 10, 16)
 	/// @param length Minimum length filled with zeroes
 	XString& From(uint32_t value, int base = 10, int length = 0);
 	/// Assigns a number to this instance
 	/// @param value Value to set
-	/// @param base Value base (2, 8, 10, 16)
+	/// @param base Value base (2, 10, 16)
 	/// @param length Minimum length filled with zeroes
 	XString& From(int64_t value, int base = 10, int length = 0);
 	/// Assigns a number to this instance
 	/// @param value Value to set
-	/// @param base Value base (2, 8, 10, 16)
+	/// @param base Value base (2, 10, 16)
 	/// @param length Minimum length filled with zeroes
 	XString& From(uint64_t value, int base = 10, int length = 0);
 	/// Assigns a number to this instance
@@ -314,7 +316,7 @@ protected:
 	}
 
 	/// Verify the correct value base
-	/// @param base Value base (2, 8, 10, 16)
+	/// @param base Value base (2, 10, 16)
 	bool IsValidBase(int base);
 	/// Checks for valid character at the specified position
 	/// @param index Position
@@ -333,7 +335,7 @@ private:
 	/// @tparam T Integral type of value
 	/// @param value Value to set
 	/// @param length Minimum length filled with zeroes
-	/// @param base Value base (2, 8, 10, 16)
+	/// @param base Value base (2, 10, 16)
 	/// @param decIndex Decimal separator position
 	template <typename T> XString& FromInt(T value, int length, int base = 10, int decIndex = 0);
 };
