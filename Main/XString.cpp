@@ -35,7 +35,7 @@
 #endif
 
 #define X_MaxText 512
-#define X_MaxNum 32
+#define X_MaxNum 64
 
 char XString::DecimalSeparator = '.';
 char XString::ThousandsSeparator = ',';
