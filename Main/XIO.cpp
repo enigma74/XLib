@@ -33,6 +33,7 @@ void XIO::Pin(uint8_t pin)
 {
 	m_pin = pin;
 	m_output = false;
+	m_delay = 0;
 	m_pr = NULL;
 	m_bm = 0;
 }
@@ -42,6 +43,7 @@ void XIO::Init(uint8_t mode)
 	if (m_pin == X_NoPin)
 		return;
 	m_output = (mode == OUTPUT);
+	m_delay = 0;
 	m_pr = m_output
 		? portOutputRegister(digitalPinToPort(m_pin))
 		: portInputRegister(digitalPinToPort(m_pin));

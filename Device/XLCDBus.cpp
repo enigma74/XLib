@@ -57,44 +57,10 @@ XLCDBus::XLCDBus(XLCDIType type, uint32_t freq)
 #endif
 }
 
-void XLCDBus::PulseWrite(uint32_t count)
-{
-//	if (count > 16)
-//	{
-//		uint32_t blocks = count >> 4;
-//		count &= 0x0F;
-//		do
-//		{
-//			WR.PulseLow(m_delay);
-//			WR.PulseLow(m_delay);
-//			WR.PulseLow(m_delay);
-//			WR.PulseLow(m_delay);
-//			WR.PulseLow(m_delay);
-//			WR.PulseLow(m_delay);
-//			WR.PulseLow(m_delay);
-//			WR.PulseLow(m_delay);
-//			WR.PulseLow(m_delay);
-//			WR.PulseLow(m_delay);
-//			WR.PulseLow(m_delay);
-//			WR.PulseLow(m_delay);
-//			WR.PulseLow(m_delay);
-//			WR.PulseLow(m_delay);
-//			WR.PulseLow(m_delay);
-//			WR.PulseLow(m_delay);
-//		} while (--blocks);
-//		if (!count)
-//			return;
-//	}
-	do
-	{
-		WR.PulseLow(m_delay);
-	} while (--count);
-}
-
 void XLCDBus::OnInit()
 {
 	RD.InitOutput(HIGH);
-	WR.InitOutput(HIGH);
+	WR.InitDelayedOutput(m_freq, HIGH);
 }
 
 void XLCDBus::OnBegin(bool write)

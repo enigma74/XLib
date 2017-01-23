@@ -32,7 +32,7 @@ XLCDSerial::XLCDSerial(uint32_t freq)
 void XLCDSerial::OnInit()
 {
 	SDA.InitOutput(HIGH);
-	SCL.InitOutput(HIGH);
+	SCL.InitDelayedOutput(m_freq, HIGH);
 }
 
 void XLCDSerial::OnWriteByte(uint8_t data, bool cmd)
@@ -40,30 +40,14 @@ void XLCDSerial::OnWriteByte(uint8_t data, bool cmd)
 	if (!DC.IsInit())
 	{
 		SDA = !cmd;
-		SCL.PulseLow(m_delay);
+		SCL.PulseLow();
 	}
 	for (int b = 0; b < 8; b++)
 	{
 		SDA = data & 0x80;
-		SCL.PulseLow(m_delay);
+		SCL.PulseLow();
 		data <<= 1;
 	}
-//	SDA = data & 0x80;
-//	SCL.PulseLow(m_delay);
-//	SDA = data & 0x40;
-//	SCL.PulseLow(m_delay);
-//	SDA = data & 0x20;
-//	SCL.PulseLow(m_delay);
-//	SDA = data & 0x10;
-//	SCL.PulseLow(m_delay);
-//	SDA = data & 0x08;
-//	SCL.PulseLow(m_delay);
-//	SDA = data & 0x04;
-//	SCL.PulseLow(m_delay);
-//	SDA = data & 0x02;
-//	SCL.PulseLow(m_delay);
-//	SDA = data & 0x01;
-//	SCL.PulseLow(m_delay);
 }
 
 void XLCDSerial::OnWriteColor(XColor color, uint32_t count)

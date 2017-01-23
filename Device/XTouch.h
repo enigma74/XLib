@@ -88,8 +88,8 @@ public:
 	virtual XEvent PollEvent() override;
 
 private:
-	/// Clock cycles to compensate frequency
-	uint32_t m_delay;
+	/// Target frequency
+	uint32_t m_freq;
 
 	/// Origin touch point
 	XPoint m_origin;

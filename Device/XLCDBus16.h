@@ -61,7 +61,7 @@ protected:
 	inline void WriteBus(uint16_t data, uint32_t count = 1)
 	{
 		OnWriteBus(data);
-		PulseWrite(count);
+		WR.PulseLow(count);
 	}
 
 	/// Write data to the device

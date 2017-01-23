@@ -27,7 +27,7 @@
 XLCDI::XLCDI(XLCDIType type, uint32_t freq)
 	: Type(type)
 {
-	m_delay = XFreqCycles(freq);
+	m_freq = freq;
 }
 
 void XLCDI::Init()

@@ -99,8 +99,8 @@ public:
 	}
 
 protected:
-	/// Clock cycles to compensate frequency
-	uint32_t m_delay;
+	/// Target frequency
+	uint32_t m_freq;
 
 	/// Constructor
 	/// @param type Type

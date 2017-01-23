@@ -74,7 +74,7 @@ XTouch::XTouch(XGLCD& lcd, uint32_t freq)
 	CLK.Pin(31);
 	PENIRQ.Pin(17);
 #endif
-	m_delay = XFreqCycles(freq);
+	m_freq = freq;
 	m_flags = 0;
 	m_lasttouch = 0;
 	m_touching = false;
@@ -109,7 +109,7 @@ int16_t XTouch::SendCB(uint8_t cb, uint16_t t)
 			s++;
 		}
 		// pulse clock
-		CLK.PulseHigh(m_delay);
+		CLK.PulseHigh();
 		// complete pending command cycle from the 8th clk
 		if (pending && (c == 23))
 		{
@@ -157,7 +157,7 @@ int16_t XTouch::SendCB(uint8_t cb, uint16_t t)
 void XTouch::Init(const XTouchCalibration& tc)
 {
 	// initialize pins
-	CS.InitOutput(HIGH);
+	CS.InitDelayedOutput(m_freq, HIGH);
 	DIN.InitOutput();
 	DOUT.InitInput();
 	CLK.InitOutput();

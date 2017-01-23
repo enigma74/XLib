@@ -39,10 +39,6 @@ protected:
 	/// @param freq Target frequency
 	XLCDBus(XLCDIType type, uint32_t freq = 0);
 
-	/// Pulse write pin count times
-	/// @param count Count
-	void PulseWrite(uint32_t count = 1);
-
 	/// Initializes the interface
 	virtual void OnInit() override;
 	/// Begins a read/write operation
