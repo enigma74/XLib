@@ -246,37 +246,4 @@ typedef _XSafe<uint16_t, int32_t, 0x0000, 0xFFFF> XSafeUInt16;
 /// Class to do basic math operations on a int16_t value in a safe way
 typedef _XSafe<int16_t, int32_t, int16_t(0x8000), 0x7FFF> XSafeInt16;
 
-// ******************************************************************************
-
-#if defined(__XHW__)
-
-#define X_1Mhz 1000000L
-#define X_2Mhz 2000000L
-#define X_4Mhz 4000000L
-#define X_6Mhz 6000000L
-#define X_8Mhz 8000000L
-
-/// Returns the number of cycle needed for a cycle of the specified frequency
-/// @param freq Target frequency
-inline uint32_t XFreqCycles(uint32_t freq)
-{
-	return (freq > 0) ? ((freq < F_CPU) ? (F_CPU / freq) : 1) : 0;
-}
-
-/// Waits for about specified clock cycles
-/// @param cycles Clock cycles
-inline void XWaitCycles(uint32_t cycles)
-{
-	// half cycles to compensate while cycle checks
-	if (!(cycles >> 1))
-		return;
-	while (cycles)
-	{
-		__asm__ __volatile__ ("nop\n\t");
-		cycles--;
-	}
-}
-
-#endif // __XHW__
-
 #endif
